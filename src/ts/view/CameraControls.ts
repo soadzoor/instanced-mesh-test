@@ -187,7 +187,7 @@ export class CameraControls
 
 	public pointerMove(pointer: Pointer, currentTimeStamp: number, force: boolean = false)
 	{
-		if (!this._pointerStart)
+		if (!this._pointerStart?.world)
 		{
 			return;
 		}

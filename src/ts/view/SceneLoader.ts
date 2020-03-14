@@ -1,5 +1,5 @@
 import {SceneManager} from "./SceneManager";
-import {Texture, TextureLoader, InstancedMesh, InstancedBufferGeometry, PlaneBufferGeometry, InstancedBufferAttribute, RawShaderMaterial, BoxBufferGeometry} from "three";
+import {Texture, TextureLoader, InstancedMesh, InstancedBufferGeometry, PlaneBufferGeometry, InstancedBufferAttribute, RawShaderMaterial, BoxBufferGeometry, Object3D, DynamicDrawUsage} from "three";
 import {Shaders} from "./Shaders";
 import {Constants} from "utils/Constants";
 
@@ -13,7 +13,7 @@ export class SceneLoader
 
 	private _atlasRowNum: number = 5;
 
-	private _count: number = 1000000;
+	private _count: number = 500000;
 
 	constructor(scene: SceneManager)
 	{
@@ -67,7 +67,23 @@ export class SceneLoader
 				transparent: true
 			});
 
+
 			this._instancedMesh = new InstancedMesh(this._instancedGeometry, material, this._count);
+
+
+			const dummy = new Object3D();
+
+			//this._instancedMesh.instanceMatrix.setUsage(DynamicDrawUsage);
+
+			dummy.rotation.set(Math.PI / 2, 0, 0);
+			for (let i = 0; i < this._count; ++i)
+			{
+				dummy.position.set(Math.random()*Constants.SPACE_SIZE, Math.random()*Constants.SPACE_SIZE, Math.random()*0.1);
+				dummy.updateMatrix();
+				this._instancedMesh.setMatrixAt(i, dummy.matrix);
+			}
+
+			this._instancedMesh.instanceMatrix.needsUpdate = true;
 
 			this._sceneManager.scene.add(this._instancedMesh);
 		});

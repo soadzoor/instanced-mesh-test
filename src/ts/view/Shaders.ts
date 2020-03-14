@@ -10,7 +10,7 @@ uniform mat4 projectionMatrix;
 
 attribute vec3 position;
 attribute vec2 uv;
-
+attribute mat4 instanceMatrix;
 attribute vec3 center;
 attribute vec2 uvOffset;
 
@@ -21,7 +21,7 @@ varying vec2 vUv;
 void main()
 {
 	vUv = uvOffset + (uv / atlasSize);
-	gl_Position = projectionMatrix * modelViewMatrix * vec4(position + center, 1.0);
+	gl_Position = projectionMatrix * modelViewMatrix * instanceMatrix * vec4(position, 1.0);
 }
 `);
 	}
