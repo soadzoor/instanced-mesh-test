@@ -13,7 +13,7 @@ export class SceneLoader
 
 	private _atlasRowNum: number = 5;
 
-	private _count: number = 500000;
+	private _count: number = 1_000_000;
 
 	constructor(scene: SceneManager)
 	{
